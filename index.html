@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狼纪录片学习站 - Wolf Documentary Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #4a9eff;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4a9eff, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(74, 158, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4a9eff;
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #2a2a4e;
+            border: 2px solid #4a9eff;
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #4a9eff;
+            color: #1a1a2e;
+        }
+
+        .documentaries {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .doc-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a9eff;
+            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+        }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4a9eff, #ff6b6b);
+        }
+
+        .doc-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4a9eff;
+            color: #1a1a2e;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .doc-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #fff;
+            padding-right: 80px;
+        }
+
+        .doc-platform {
+            color: #4a9eff;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .doc-description {
+            color: #aaa;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .doc-date {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .watch-btn {
+            background: linear-gradient(90deg, #4a9eff, #ff6b6b);
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .watch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(74, 158, 255, 0.4);
+        }
+
+        .notes-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .notes-section h2 {
+            color: #4a9eff;
+            margin-bottom: 20px;
+        }
+
+        .notes-list {
+            list-style: none;
+        }
+
+        .notes-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notes-list li:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .documentaries {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐺 狼纪录片学习站</h1>
+            <p class="subtitle">Wolf Documentary Hub - 集中学习狼的世界</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">精选纪录片</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">精选内容</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">🎬</div>
+                    <div class="stat-label">持续更新</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="filter-section">
+            <button class="filter-btn active">全部</button>
+            <button class="filter-btn">生存故事</button>
+            <button class="filter-btn">黄石公园</button>
+            <button class="filter-btn">欧洲狼群</button>
+            <button class="filter-btn">经典合集</button>
+        </div>
+
+        <div class="documentaries">
+            <div class="doc-card">
+                <span class="doc-badge">推荐</span>
+                <h3 class="doc-title">狼的生存斗争</h3>
+                <div class="doc-platform">📺 YouTube</div>
+                <p class="doc-description">
+                    跟随狼在野外艰苦环境中求生的真实故事，展现狼群的坚韧与智慧。记录了狼在面对自然挑战时的应对策略和团队协作。
+                </p>
+                <div class="doc-meta">
+                    <span class="doc-date">2025年3月发布</span>
+                    <a href="https://www.youtube.com/watch?v=becgApHjqmk" class="watch-btn" target="_blank">观看 🎬</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <span class="doc-badge">热门</span>
+                <h3 class="doc-title">黄石国家公园的捕狼群</h3>
+                <div class="doc-platform">📺 YouTube</div>
+                <p class="doc-description">
+                    记录一只孤独雌性狼如何在黄石国家公园中生存、组建新族群并抚育多代幼崽的感人故事。
+                </p>
+                <div class="doc-meta">
+                    <span class="doc-date">2024年2月发布</span>
+                    <a href="https://www.youtube.com/watch?v=iND8wDSdqpc" class="watch-btn" target="_blank">观看 🎬</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <span class="doc-badge">经典</span>
+                <h3 class="doc-title">狼谷之战 (完整集)</h3>
+                <div class="doc-platform">📺 National Geographic</div>
+                <p class="doc-description">
+                    黄石公园德鲁伊峰狼群成为世界上最著名的狼群。这部纪录片展现了它们长达14年的统治史，包括对抗入侵者和史诗般的战斗。
+                </p>
+                <div class="doc-meta">
+                    <span class="doc-date">2025年1月发布</span>
+                    <a href="https://www.youtube.com/watch?v=A3K7qn-3khA" class="watch-btn" target="_blank">观看 🎬</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <span class="doc-badge">欧洲</span>
+                <h3 class="doc-title">阿尔卑斯山的猎人：狼群回归</h3>
+                <div class="doc-platform">📺 Free Documentary Nature</div>
+                <p class="doc-description">
+                    记录意大利阿尔卑斯山脉狼群的回归故事，展现欧洲野生狼群在自然环境中的生存现状。
+                </p>
+                <div class="doc-meta">
+                    <span class="doc-date">2025年4月发布</span>
+                    <a href="https://www.youtube.com/watch?v=osBD1R3TZfg" class="watch-btn" target="_blank">观看 🎬</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <span class="doc-badge">合集</span>
+                <h3 class="doc-title">狼纪录片精选合集</h3>
+                <div class="doc-platform">📺 YouTube Playlist</div>
+                <p class="doc-description">
+                    收录了多个优秀的狼纪录片，让你沉浸式体验野外的神秘气息和狼的狂野能量。适合系统学习。
+                </p>
+                <div class="doc-meta">
+                    <span class="doc-date">持续更新</span>
+                    <a href="https://www.youtube.com/playlist?list=PL306tQWTn9VS1B9QG22_Z7J-H_YRBmRFi" class="watch-btn" target="_blank">观看 🎬</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="notes-section">
+            <h2>📝 学习笔记</h2>
+            <ul class="notes-list">
+                <li>💡 <strong>建议顺序</strong>：从《狼的生存斗争》开始，了解基础；然后看《狼谷之战》深入了解；最后看合集巩固知识</li>
+                <li>🎯 <strong>重点观察</strong>：注意狼群的等级制度、狩猎策略、幼崽成长过程</li>
+                <li>🌍 <strong>地理分布</strong>：对比黄石公园（北美）和阿尔卑斯山（欧洲）的狼群差异</li>
+                <li>⏰ <strong>观看时长</strong>：每部纪录片约45-90分钟，建议分段观看并做笔记</li>
+                <li>🔄 <strong>反复学习</strong>：多次观看，每次关注不同方面（行为、环境、生存策略）</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>🐺 Wolf Documentary Hub | 持续更新中...</p>
+            <p>© 2026 - 让我们共同保护和学习狼的世界</p>
+        </footer>
+    </div>
+
+    <script>
+        // 简单的筛选功能
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const docCards = document.querySelectorAll('.doc-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有active类
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // 添加active类到当前按钮
+                btn.classList.add('active');
+                
+                // 获取筛选类型
+                const filterType = btn.textContent.trim();
+                
+                // 筛选显示
+                docCards.forEach(card => {
+                    if (filterType === '全部') {
+                        card.style.display = 'block';
+                    } else {
+                        // 这里可以根据需要添加更复杂的筛选逻辑
+                        card.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        // 添加点击观看后的提醒
+        const watchBtns = document.querySelectorAll('.watch-btn');
+        watchBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = e.target.closest('.doc-card');
+                const title = card.querySelector('.doc-title').textContent;
+                console.log(`开始观看：${title}`);
+                // 可以在这里添加观看记录功能
+            });
+        });
+    </script>
+</body>
+</html>
