@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>狼纪录片学习站 - Wolf Documentary Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>狼纪录片 - Wolf Documentaries</title>
     <style>
         * {
             margin: 0;
@@ -13,437 +12,334 @@
         }
 
         body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(135deg, #0d0d14 0%, #1a1a2e 50%, #0f2027 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            overflow-x: hidden;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+            background: #0f0f0f;
+            color: #0f0f0f;
+            line-height: 1.6;
         }
 
-        /* 背景装饰 */
-        .bg-pattern {
-            position: fixed;
+        /* 顶部导航栏 */
+        .navbar {
+            background: #0f0f0f;
+            border-bottom: 1px solid #303030;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(74, 158, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.02) 0%, transparent 50%);
+            z-index: 1000;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            padding: 80px 0 60px;
-            position: relative;
-        }
-
-        .header-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="wolf-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 10 0 L 20 10 L 10 20 L 0 10 Z" fill="rgba(74,158,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23wolf-pattern)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .wolf-emoji {
-            font-size: 8em;
-            margin-bottom: 20px;
-            display: block;
-            filter: drop-shadow(0 0 30px rgba(74, 158, 255, 0.5));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5em;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 40px rgba(74, 158, 255, 0.3);
-            letter-spacing: 3px;
-        }
-
-        .subtitle {
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.3em;
-            color: #888;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(74, 158, 255, 0.05) 100%);
-            padding: 25px 35px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            border-color: rgba(74, 158, 255, 0.5);
-            box-shadow: 0 10px 40px rgba(74, 158, 255, 0.2);
-        }
-
-        .stat-number {
-            font-size: 3em;
             font-weight: 700;
-            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #aaa;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .filter-section {
-            margin-bottom: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            padding: 30px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .filter-btn {
-            padding: 15px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(74, 158, 255, 0.3);
             color: #fff;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            letter-spacing: 1px;
-            backdrop-filter: blur(10px);
         }
 
-        .filter-btn:hover {
-            background: rgba(74, 158, 255, 0.1);
-            border-color: #4a9eff;
+        .logo-icon {
+            background: #cc0000;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: #121212;
+            border: 1px solid #303030;
+            border-radius: 40px;
+            padding: 10px 16px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #065fd4;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            max-width: 2560px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 分类标签 */
+        .category-chips {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #303030;
+        }
+
+        .chip {
+            background: #272727;
+            color: #aaa;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        .chip.active {
+            background: #fff;
+            color: #0f0f0f;
+        }
+
+        /* 视频网格 */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px 40px;
+            padding: 20px 0;
+        }
+
+        /* 视频卡片 */
+        .video-card {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s;
+        }
+
+        .video-card:hover .thumbnail img {
             transform: scale(1.05);
         }
 
-        .filter-btn.active {
-            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
-            border-color: transparent;
-            color: #1a1a2e;
-            font-weight: 700;
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
-        .documentaries {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-            gap: 35px;
-            margin-bottom: 60px;
+        .video-info {
+            padding: 12px 0;
         }
 
-        .doc-card {
-            background: linear-gradient(145deg, rgba(30, 30, 50, 0.8) 0%, rgba(20, 20, 35, 0.9) 100%);
-            border-radius: 25px;
-            padding: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+        .video-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            border: 1px solid rgba(74, 158, 255, 0.15);
         }
 
-        .doc-card::before {
-            content: '';
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .channel-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #272727;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .channel-name {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #606060;
+            font-size: 12px;
+        }
+
+        .views {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .views::before {
+            content: '👁';
+            font-size: 14px;
+        }
+
+        .publish-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .publish-date::before {
+            content: '📅';
+            font-size: 12px;
+        }
+
+        .more-options {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #fff;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .video-card:hover .more-options {
+            opacity: 1;
+        }
+
+        .more-options:hover {
+            background: #272727;
+        }
+
+        /* 播放覆盖层 */
+        .play-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #4a9eff, #ff6b6b, #4a9eff);
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border-radius: 12px;
         }
 
-        .doc-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(74, 158, 255, 0.4);
-            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.3), 0 0 100px rgba(74, 158, 255, 0.1);
+        .video-card:hover .play-overlay {
+            opacity: 1;
         }
 
-        .doc-image {
-            width: 100%;
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
+        .play-button {
+            width: 50px;
+            height: 35px;
+            background: #cc0000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
         }
 
-        .doc-image::after {
+        .play-button::before {
             content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            background: linear-gradient(to top, rgba(20, 20, 35, 1) 0%, transparent 100%);
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 16px solid #fff;
         }
 
-        .doc-content {
-            padding: 30px;
+        /* 响应式 */
+        @media (max-width: 1400px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
 
-        .doc-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 700;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.4);
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 10px 0;
+                padding: 10px 0;
+            }
+
+            .navbar {
+                padding: 12px 16px;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .category-chips {
+                padding: 10px 16px;
+            }
+
+            .thumbnail {
+                border-radius: 8px;
+            }
         }
 
-        .doc-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #fff;
-            padding-right: 100px;
-            line-height: 1.3;
-        }
-
-        .doc-platform {
-            color: #4a9eff;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .doc-platform::before {
-            content: '▸';
-            color: #ff6b6b;
-        }
-
-        .doc-description {
-            color: #b0b0b0;
-            margin-bottom: 20px;
-            line-height: 1.8;
-            font-size: 0.95em;
-        }
-
-        .doc-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .doc-date {
-            color: #666;
-            font-size: 0.85em;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .doc-date::before {
-            content: '📅';
-            font-size: 1.1em;
-        }
-
-        .watch-btn {
-            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
-            color: #fff;
-            text-decoration: none;
-            padding: 15px 35px;
-            border-radius: 30px;
-            transition: all 0.3s;
-            font-weight: 600;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3);
-        }
-
-        .watch-btn:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(74, 158, 255, 0.5);
-        }
-
-        .watch-btn::after {
-            content: '→';
-            font-weight: bold;
-            margin-left: 5px;
-            transition: margin-left 0.3s;
-        }
-
-        .watch-btn:hover::after {
-            margin-left: 10px;
-        }
-
-        .notes-section {
-            background: linear-gradient(135deg, rgba(74, 158, 255, 0.08) 0%, rgba(255, 107, 107, 0.05) 100%);
-            padding: 40px;
-            border-radius: 25px;
-            margin-top: 60px;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .notes-section h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2em;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-        }
-
-        .notes-list {
-            list-style: none;
-        }
-
-        .notes-list li {
-            padding: 18px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.3s;
-        }
-
-        .notes-list li:hover {
-            background: rgba(74, 158, 255, 0.05);
-            padding-left: 15px;
-            border-radius: 10px;
-        }
-
-        .notes-list li:last-child {
-            border-bottom: none;
-        }
-
-        .notes-list strong {
-            color: #4a9eff;
-        }
-
-        footer {
-            text-align: center;
-            padding: 50px 0;
-            color: #666;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            margin-top: 60px;
-            background: linear-gradient(135deg, rgba(74, 158, 255, 0.05) 0%, rgba(255, 107, 107, 0.02) 100%);
-            padding: 40px 0;
-        }
-
-        footer p {
-            margin: 10px 0;
-        }
-
-        footer .wolf-paw {
-            font-size: 2em;
-            margin-bottom: 15px;
-        }
-
-        /* 滚动条样式 */
+        /* 滚动条 */
         ::-webkit-scrollbar {
             width: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #0d0d14;
+            background: #0f0f0f;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
+            background: #303030;
             border-radius: 5px;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 1024px) {
-            .documentaries {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2em;
-            }
-
-            .wolf-emoji {
-                font-size: 5em;
-            }
-
-            .documentaries {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                flex-direction: column;
-                gap: 20px;
-                align-items: center;
-            }
-
-            .stat-item {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .filter-section {
-                gap: 10px;
-            }
-
-            .filter-btn {
-                padding: 12px 20px;
-                font-size: 0.9em;
-            }
-        }
-
-        /* 加载动画 */
+        /* 加载状态 */
         .loading {
             display: none;
         }
@@ -456,12 +352,12 @@
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(74, 158, 255, 0.1);
-            border-top-color: #4a9eff;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #303030;
+            border-top-color: #cc0000;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -470,233 +366,244 @@
     </style>
 </head>
 <body>
-    <div class="bg-pattern"></div>
-    
-    <div class="container">
-        <header>
-            <div class="header-bg"></div>
-            <span class="wolf-emoji">🐺</span>
-            <h1>狼纪录片学习站</h1>
-            <p class="subtitle">Wolf Documentary Hub</p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number">6</div>
-                    <div class="stat-label">精选纪录片</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">真实自然</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">🌍</div>
-                    <div class="stat-label">全球生态</div>
-                </div>
-            </div>
-        </header>
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">▶</div>
+            <span>WolfDocs</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索狼纪录片...">
+        </div>
+    </nav>
 
-        <div class="filter-section">
-            <button class="filter-btn active">全部</button>
-            <button class="filter-btn">生存故事</button>
-            <button class="filter-btn">黄石公园</button>
-            <button class="filter-btn">欧洲狼群</button>
-            <button class="filter-btn">中国纪录片</button>
-            <button class="filter-btn">经典合集</button>
+    <div class="main-content">
+        <div class="category-chips">
+            <button class="chip active">全部</button>
+            <button class="chip">生存故事</button>
+            <button class="chip">黄石公园</button>
+            <button class="chip">欧洲狼群</button>
+            <button class="chip">中国纪录片</button>
+            <button class="chip">经典合集</button>
         </div>
 
-        <div class="documentaries">
-            <div class="doc-card">
-                <span class="doc-badge">推荐</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #1a3a4a 0%, #0d1f2c 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">狼的生存斗争</h3>
-                    <div class="doc-platform">YouTube 高清纪录片</div>
-                    <p class="doc-description">
-                        跟随狼在野外艰苦环境中求生的真实故事，展现狼群的坚韧与智慧。记录了狼在面对自然挑战时的应对策略和团队协作。镜头捕捉了狼群狩猎、照顾幼崽、保卫领地等珍贵画面。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">2025年3月发布</span>
-                        <a href="https://www.youtube.com/watch?v=becgApHjqmk" class="watch-btn" target="_blank">观看</a>
+        <div class="video-grid">
+            <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=becgApHjqmk', '_blank')">
+                <div class="thumbnail">
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">45:00</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">狼的生存斗争 - A Wolf's Struggle For Survival In The Wild</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">📺</div>
+                        <span class="channel-name">Nature Documentary</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">125万次观看</span>
+                        <span class="publish-date">2025年3月</span>
                     </div>
                 </div>
             </div>
 
-            <div class="doc-card">
-                <span class="doc-badge">热门</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #2d4a2e 0%, #1a2e25 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">黄石国家公园的捕狼群</h3>
-                    <div class="doc-platform">National Geographic</div>
-                    <p class="doc-description">
-                        记录一只孤独雌性狼如何在黄石国家公园中生存、组建新族群并抚育多代幼崽的感人故事。展现了黄石公园生态系统中狼群的重要角色。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">2024年2月发布</span>
-                        <a href="https://www.youtube.com/watch?v=iND8wDSdqpc" class="watch-btn" target="_blank">观看</a>
+            <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=iND8wDSdqpc', '_blank')">
+                <div class="thumbnail">
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">58:30</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">黄石国家公园的捕狼群 - The Predatory Wolf Pack Of Yellowstone</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">📺</div>
+                        <span class="channel-name">National Geographic</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">89万次观看</span>
+                        <span class="publish-date">2024年2月</span>
                     </div>
                 </div>
             </div>
 
-            <div class="doc-card">
-                <span class="doc-badge">经典</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #3d2a1a 0%, #1f1a16 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">狼谷之战 (完整集)</h3>
-                    <div class="doc-platform">National Geographic</div>
-                    <p class="doc-description">
-                        黄石公园德鲁伊峰狼群成为世界上最著名的狼群。这部纪录片展现了它们长达14年的统治史，包括对抗入侵者和史诗般的战斗。镜头捕捉了狼群社会的复杂动态。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">2025年1月发布</span>
-                        <a href="https://www.youtube.com/watch?v=A3K7qn-3khA" class="watch-btn" target="_blank">观看</a>
+            <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=A3K7qn-3khA', '_blank')">
+                <div class="thumbnail">
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">52:15</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">狼谷之战 - Fight for Wolf Valley</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">📺</div>
+                        <span class="channel-name">National Geographic</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">210万次观看</span>
+                        <span class="publish-date">2025年1月</span>
                     </div>
                 </div>
             </div>
 
-            <div class="doc-card">
-                <span class="doc-badge">欧洲</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #2a4a3d 0%, #1a2e27 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">阿尔卑斯山的猎人：狼群回归</h3>
-                    <div class="doc-platform">Free Documentary Nature</div>
-                    <p class="doc-description">
-                        记录意大利阿尔卑斯山脉狼群的回归故事，展现欧洲野生狼群在自然环境中的生存现状。探索狼与人类社区的关系。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">2025年4月发布</span>
-                        <a href="https://www.youtube.com/watch?v=osBD1R3TZfg" class="watch-btn" target="_blank">观看</a>
+            <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=osBD1R3TZfg', '_blank')">
+                <div class="thumbnail">
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">48:45</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">阿尔卑斯山的猎人：狼群回归 - Hunters of the Alps</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">📺</div>
+                        <span class="channel-name">Free Documentary Nature</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">67万次观看</span>
+                        <span class="publish-date">2025年4月</span>
                     </div>
                 </div>
             </div>
 
-            <div class="doc-card">
-                <span class="doc-badge">🇨🇳 中国</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #3a4a5a 0%, #1f2a35 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">重返狼群（10周年纪念版）</h3>
-                    <div class="doc-platform">优酷 高清正版 | 完整版</div>
-                    <p class="doc-description">
-                        中国经典狼纪录片，记录了成都画家李微漪在草原拯救小狼格林的故事。经过十年的追寻，格林终于回归狼群。这部纪录片引发了全民关注，是研究中国野生动物的珍贵影像资料。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">2021年发布</span>
-                        <a href="https://v.youku.com/v_show/id_XNTEzMjI4MDI5Mg==.html" class="watch-btn" target="_blank">观看</a>
+            <div class="video-card" onclick="window.open('https://v.youku.com/v_show/id_XNTEzMjI4MDI5Mg==.html', '_blank')">
+                <div class="thumbnail" style="background: linear-gradient(135deg, #1a3a4a 0%, #0d1f2c 100%); display: flex; align-items: center; justify-content: center; font-size: 4em;">
+                    🐺
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">89:00</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">重返狼群（10周年纪念版）- Return To The Wolves</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">🇨🇳</div>
+                        <span class="channel-name">优酷 YOUKU</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">231万次观看</span>
+                        <span class="publish-date">2021年</span>
                     </div>
                 </div>
             </div>
 
-            <div class="doc-card">
-                <span class="doc-badge">合集</span>
-                <div class="doc-image" style="background-image: linear-gradient(135deg, #2a3a4a 0%, #1a252a 100%);"></div>
-                <div class="doc-content">
-                    <h3 class="doc-title">狼纪录片精选合集</h3>
-                    <div class="doc-platform">YouTube Playlist</div>
-                    <p class="doc-description">
-                        收录了多个优秀的狼纪录片，让你沉浸式体验野外的神秘气息和狼的狂野能量。适合系统学习，从基础了解到深入研究。
-                    </p>
-                    <div class="doc-meta">
-                        <span class="doc-date">持续更新</span>
-                        <a href="https://www.youtube.com/playlist?list=PL306tQWTn9VS1B9QG22_Z7J-H_YRBmRFi" class="watch-btn" target="_blank">观看</a>
+            <div class="video-card" onclick="window.open('https://www.youtube.com/playlist?list=PL306tQWTn9VS1B9QG22_Z7J-H_YRBmRFi', '_blank')">
+                <div class="thumbnail">
+                    <div class="play-overlay">
+                        <div class="play-button"></div>
+                    </div>
+                    <span class="duration">合集</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">狼纪录片精选合集 - Wolf Documentary Collection</h3>
+                    <div class="channel-info">
+                        <div class="channel-avatar">📚</div>
+                        <span class="channel-name">YouTube Playlist</span>
+                    </div>
+                    <div class="video-meta">
+                        <span class="views">6部纪录片</span>
+                        <span class="publish-date">持续更新</span>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="notes-section">
-            <h2>📝 学习指南</h2>
-            <ul class="notes-list">
-                <li>🎯 <strong>观看顺序</strong>：从《狼的生存斗争》了解基础 → 《狼谷之战》深入了解 → 《重返狼群》了解中国狼群 → 最后看合集巩固知识</li>
-                <li>👁️ <strong>重点观察</strong>：狼群的等级制度、狩猎策略、幼崽成长过程、领地保卫行为</li>
-                <li>🌍 <strong>地理对比</strong>：黄石公园（北美）、阿尔卑斯山（欧洲）、中国东北 - 对比不同环境下狼的适应策略</li>
-                <li>🎬 <strong>观看建议</strong>：每部纪录片约45-90分钟，建议分段观看并做笔记，暂停思考画面细节</li>
-                <li>🔄 <strong>反复学习</strong>：多次观看同一纪录片，每次关注不同方面（行为、环境、生存策略、社会结构）</li>
-            </ul>
-        </div>
-
-        <footer>
-            <p class="wolf-paw">🐾</p>
-            <p>🐺 Wolf Documentary Hub | 探索狼的神秘世界</p>
-            <p>© 2026 | 让我们共同保护和学习这些伟大的野生动物</p>
-        </footer>
     </div>
 
     <script>
-        // 筛选功能
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const docCards = document.querySelectorAll('.doc-card');
+        // 分类筛选
+        const chips = document.querySelectorAll('.chip');
+        const videoCards = document.querySelectorAll('.video-card');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filterType = btn.textContent.trim();
-                
-                docCards.forEach(card => {
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                const category = chip.textContent.trim();
+
+                videoCards.forEach(card => {
                     card.style.display = 'block';
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        if (filterType === '全部') {
-                            card.style.display = 'block';
-                        } else if (card.textContent.includes(filterType)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                        
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100 + Math.random() * 200);
+                    const title = card.querySelector('.video-title').textContent;
+
+                    if (category === '全部') {
+                        card.style.display = 'block';
+                    } else if (category === '中国纪录片' && title.includes('重返狼群')) {
+                        card.style.display = 'block';
+                    } else if (category === '黄石公园' && title.includes('Yellowstone') || title.includes('黄石')) {
+                        card.style.display = 'block';
+                    } else if (category === '欧洲狼群' && title.includes('Alps') || title.includes('阿尔卑斯')) {
+                        card.style.display = 'block';
+                    } else if (category === '生存故事' && title.includes('Struggle') || title.includes('Survival')) {
+                        card.style.display = 'block';
+                    } else if (category === '经典合集' && title.includes('合集') || title.includes('Collection')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
             });
         });
 
-        // 观看记录
-        const watchBtns = document.querySelectorAll('.watch-btn');
-        watchBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const card = e.target.closest('.doc-card');
-                const title = card.querySelector('.doc-title').textContent;
-                
-                // 保存到本地存储
-                const watched = JSON.parse(localStorage.getItem('watchedDocs') || '[]');
-                if (!watched.includes(title)) {
-                    watched.push(title);
-                    localStorage.setItem('watchedDocs', JSON.stringify(watched));
-                    
-                    // 标记已观看
-                    card.style.borderColor = '#4a9eff';
-                    card.querySelector('.doc-badge').textContent = '✓ 已观看';
-                }
-                
-                // 打开链接
-                const href = e.target.getAttribute('href');
-                window.open(href, '_blank');
-            });
-        });
+        // 搜索功能
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
 
-        // 页面加载时恢复观看状态
-        window.addEventListener('load', () => {
-            const watched = JSON.parse(localStorage.getItem('watchedDocs') || '[]');
-            docCards.forEach(card => {
-                const title = card.querySelector('.doc-title').textContent;
-                if (watched.includes(title)) {
-                    card.querySelector('.doc-badge').textContent = '✓ 已观看';
-                    card.style.borderColor = 'rgba(74, 158, 255, 0.3)';
+            videoCards.forEach(card => {
+                const title = card.querySelector('.video-title').textContent.toLowerCase();
+                const channel = card.querySelector('.channel-name').textContent.toLowerCase();
+
+                if (query === '' || title.includes(query) || channel.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
             });
         });
 
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // 已观看标记
+        const videoCardsList = Array.from(videoCards);
+        const watchedVideos = JSON.parse(localStorage.getItem('watchedWolfDocs') || '[]');
+
+        videoCardsList.forEach(card => {
+            const title = card.querySelector('.video-title').textContent;
+            if (watchedVideos.includes(title)) {
+                card.style.opacity = '0.5';
+                const playOverlay = card.querySelector('.play-overlay');
+                if (playOverlay) {
+                    playOverlay.innerHTML = '<div style="color: #fff; font-weight: bold; font-size: 24px;">✓</div>';
+                }
+            }
+        });
+
+        // 点击观看
+        videoCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const title = card.querySelector('.video-title').textContent;
+                if (!watchedVideos.includes(title)) {
+                    watchedVideos.push(title);
+                    localStorage.setItem('watchedWolfDocs', JSON.stringify(watchedVideos));
+                }
+            });
+        });
+
+        // 添加到屏幕
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const title = card.querySelector('.video-title').textContent;
+                const chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.textContent = '添加到稍后观看';
+                chip.style.cssText = 'position: absolute; top: 10px; right: 10px; z-index: 10;';
+                card.appendChild(chip);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                const chip = card.querySelector('.chip:not(.category-chips *)');
+                if (chip && chip.textContent === '添加到稍后观看') {
+                    chip.remove();
+                }
             });
         });
     </script>
