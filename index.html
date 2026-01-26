@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>狼纪录片学习站 - Wolf Documentary Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,108 +13,179 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #0d0d14 0%, #1a1a2e 50%, #0f2027 100%);
             color: #e0e0e0;
-            line-height: 1.6;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* 背景装饰 */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(74, 158, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.02) 0%, transparent 50%);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
-            padding: 40px 0;
-            border-bottom: 2px solid #4a9eff;
-            margin-bottom: 40px;
+            padding: 80px 0 60px;
+            position: relative;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="wolf-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 10 0 L 20 10 L 10 20 L 0 10 Z" fill="rgba(74,158,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23wolf-pattern)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .wolf-emoji {
+            font-size: 8em;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 30px rgba(74, 158, 255, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #4a9eff, #fff);
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 40px rgba(74, 158, 255, 0.3);
+            letter-spacing: 3px;
         }
 
         .subtitle {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: #888;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin: 30px 0;
+            gap: 50px;
+            margin: 40px 0;
             flex-wrap: wrap;
         }
 
         .stat-item {
-            background: rgba(74, 158, 255, 0.1);
-            padding: 15px 25px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(74, 158, 255, 0.05) 100%);
+            padding: 25px 35px;
+            border-radius: 20px;
             text-align: center;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(74, 158, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(74, 158, 255, 0.2);
         }
 
         .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #4a9eff;
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: #aaa;
             font-size: 0.9em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .filter-section {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             display: flex;
+            justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            padding: 30px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .filter-btn {
-            padding: 10px 20px;
-            background: #2a2a4e;
-            border: 2px solid #4a9eff;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(74, 158, 255, 0.3);
             color: #fff;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 500;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            background: #4a9eff;
+        .filter-btn:hover {
+            background: rgba(74, 158, 255, 0.1);
+            border-color: #4a9eff;
+            transform: scale(1.05);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
+            border-color: transparent;
             color: #1a1a2e;
+            font-weight: 700;
         }
 
         .documentaries {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
         }
 
         .doc-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(74, 158, 255, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s;
+            background: linear-gradient(145deg, rgba(30, 30, 50, 0.8) 0%, rgba(20, 20, 35, 0.9) 100%);
+            border-radius: 25px;
+            padding: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-        }
-
-        .doc-card:hover {
-            transform: translateY(-5px);
-            border-color: #4a9eff;
-            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
+            border: 1px solid rgba(74, 158, 255, 0.15);
         }
 
         .doc-card::before {
@@ -122,80 +194,155 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #4a9eff, #ff6b6b);
+            height: 6px;
+            background: linear-gradient(90deg, #4a9eff, #ff6b6b, #4a9eff);
+        }
+
+        .doc-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(74, 158, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.3), 0 0 100px rgba(74, 158, 255, 0.1);
+        }
+
+        .doc-image {
+            width: 100%;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .doc-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to top, rgba(20, 20, 35, 1) 0%, transparent 100%);
+        }
+
+        .doc-content {
+            padding: 30px;
         }
 
         .doc-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #4a9eff;
-            color: #1a1a2e;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.4);
         }
 
         .doc-title {
-            font-size: 1.3em;
-            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            margin-bottom: 15px;
             color: #fff;
-            padding-right: 80px;
+            padding-right: 100px;
+            line-height: 1.3;
         }
 
         .doc-platform {
             color: #4a9eff;
             font-size: 0.9em;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doc-platform::before {
+            content: '▸';
+            color: #ff6b6b;
         }
 
         .doc-description {
-            color: #aaa;
-            margin-bottom: 15px;
-            line-height: 1.6;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 0.95em;
         }
 
         .doc-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .doc-date {
             color: #666;
             font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .doc-date::before {
+            content: '📅';
+            font-size: 1.1em;
         }
 
         .watch-btn {
-            background: linear-gradient(90deg, #4a9eff, #ff6b6b);
+            background: linear-gradient(135deg, #4a9eff 0%, #ff6b6b 100%);
             color: #fff;
             text-decoration: none;
-            padding: 10px 25px;
-            border-radius: 25px;
+            padding: 15px 35px;
+            border-radius: 30px;
             transition: all 0.3s;
-            font-weight: bold;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3);
         }
 
         .watch-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(74, 158, 255, 0.4);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 158, 255, 0.5);
+        }
+
+        .watch-btn::after {
+            content: '→';
+            font-weight: bold;
+            margin-left: 5px;
+            transition: margin-left 0.3s;
+        }
+
+        .watch-btn:hover::after {
+            margin-left: 10px;
         }
 
         .notes-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.08) 0%, rgba(255, 107, 107, 0.05) 100%);
+            padding: 40px;
+            border-radius: 25px;
+            margin-top: 60px;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .notes-section h2 {
-            color: #4a9eff;
-            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
         }
 
         .notes-list {
@@ -203,25 +350,72 @@
         }
 
         .notes-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+        }
+
+        .notes-list li:hover {
+            background: rgba(74, 158, 255, 0.05);
+            padding-left: 15px;
+            border-radius: 10px;
         }
 
         .notes-list li:last-child {
             border-bottom: none;
         }
 
+        .notes-list strong {
+            color: #4a9eff;
+        }
+
         footer {
             text-align: center;
-            padding: 30px 0;
+            padding: 50px 0;
             color: #666;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 60px;
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.05) 0%, rgba(255, 107, 107, 0.02) 100%);
+            padding: 40px 0;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        footer .wolf-paw {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0d0d14;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4a9eff, #ff6b6b);
+            border-radius: 5px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .documentaries {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 2em;
+                font-size: 2.2em;
+            }
+
+            .wolf-emoji {
+                font-size: 5em;
             }
 
             .documentaries {
@@ -230,16 +424,60 @@
 
             .stats {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
+                align-items: center;
             }
+
+            .stat-item {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .filter-section {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+        }
+
+        .loading.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(74, 158, 255, 0.1);
+            border-top-color: #4a9eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <div class="bg-pattern"></div>
+    
     <div class="container">
         <header>
-            <h1>🐺 狼纪录片学习站</h1>
-            <p class="subtitle">Wolf Documentary Hub - 集中学习狼的世界</p>
+            <div class="header-bg"></div>
+            <span class="wolf-emoji">🐺</span>
+            <h1>狼纪录片学习站</h1>
+            <p class="subtitle">Wolf Documentary Hub</p>
             
             <div class="stats">
                 <div class="stat-item">
@@ -248,11 +486,11 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">100%</div>
-                    <div class="stat-label">精选内容</div>
+                    <div class="stat-label">真实自然</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">🎬</div>
-                    <div class="stat-label">持续更新</div>
+                    <div class="stat-number">🌍</div>
+                    <div class="stat-label">全球生态</div>
                 </div>
             </div>
         </header>
@@ -269,135 +507,196 @@
         <div class="documentaries">
             <div class="doc-card">
                 <span class="doc-badge">推荐</span>
-                <h3 class="doc-title">狼的生存斗争</h3>
-                <div class="doc-platform">📺 YouTube</div>
-                <p class="doc-description">
-                    跟随狼在野外艰苦环境中求生的真实故事，展现狼群的坚韧与智慧。记录了狼在面对自然挑战时的应对策略和团队协作。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">2025年3月发布</span>
-                    <a href="https://www.youtube.com/watch?v=becgApHjqmk" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #1a3a4a 0%, #0d1f2c 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">狼的生存斗争</h3>
+                    <div class="doc-platform">YouTube 高清纪录片</div>
+                    <p class="doc-description">
+                        跟随狼在野外艰苦环境中求生的真实故事，展现狼群的坚韧与智慧。记录了狼在面对自然挑战时的应对策略和团队协作。镜头捕捉了狼群狩猎、照顾幼崽、保卫领地等珍贵画面。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">2025年3月发布</span>
+                        <a href="https://www.youtube.com/watch?v=becgApHjqmk" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
 
             <div class="doc-card">
                 <span class="doc-badge">热门</span>
-                <h3 class="doc-title">黄石国家公园的捕狼群</h3>
-                <div class="doc-platform">📺 YouTube</div>
-                <p class="doc-description">
-                    记录一只孤独雌性狼如何在黄石国家公园中生存、组建新族群并抚育多代幼崽的感人故事。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">2024年2月发布</span>
-                    <a href="https://www.youtube.com/watch?v=iND8wDSdqpc" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #2d4a2e 0%, #1a2e25 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">黄石国家公园的捕狼群</h3>
+                    <div class="doc-platform">National Geographic</div>
+                    <p class="doc-description">
+                        记录一只孤独雌性狼如何在黄石国家公园中生存、组建新族群并抚育多代幼崽的感人故事。展现了黄石公园生态系统中狼群的重要角色。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">2024年2月发布</span>
+                        <a href="https://www.youtube.com/watch?v=iND8wDSdqpc" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
 
             <div class="doc-card">
                 <span class="doc-badge">经典</span>
-                <h3 class="doc-title">狼谷之战 (完整集)</h3>
-                <div class="doc-platform">📺 National Geographic</div>
-                <p class="doc-description">
-                    黄石公园德鲁伊峰狼群成为世界上最著名的狼群。这部纪录片展现了它们长达14年的统治史，包括对抗入侵者和史诗般的战斗。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">2025年1月发布</span>
-                    <a href="https://www.youtube.com/watch?v=A3K7qn-3khA" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #3d2a1a 0%, #1f1a16 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">狼谷之战 (完整集)</h3>
+                    <div class="doc-platform">National Geographic</div>
+                    <p class="doc-description">
+                        黄石公园德鲁伊峰狼群成为世界上最著名的狼群。这部纪录片展现了它们长达14年的统治史，包括对抗入侵者和史诗般的战斗。镜头捕捉了狼群社会的复杂动态。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">2025年1月发布</span>
+                        <a href="https://www.youtube.com/watch?v=A3K7qn-3khA" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
 
             <div class="doc-card">
                 <span class="doc-badge">欧洲</span>
-                <h3 class="doc-title">阿尔卑斯山的猎人：狼群回归</h3>
-                <div class="doc-platform">📺 Free Documentary Nature</div>
-                <p class="doc-description">
-                    记录意大利阿尔卑斯山脉狼群的回归故事，展现欧洲野生狼群在自然环境中的生存现状。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">2025年4月发布</span>
-                    <a href="https://www.youtube.com/watch?v=osBD1R3TZfg" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #2a4a3d 0%, #1a2e27 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">阿尔卑斯山的猎人：狼群回归</h3>
+                    <div class="doc-platform">Free Documentary Nature</div>
+                    <p class="doc-description">
+                        记录意大利阿尔卑斯山脉狼群的回归故事，展现欧洲野生狼群在自然环境中的生存现状。探索狼与人类社区的关系。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">2025年4月发布</span>
+                        <a href="https://www.youtube.com/watch?v=osBD1R3TZfg" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
 
             <div class="doc-card">
                 <span class="doc-badge">🇨🇳 中国</span>
-                <h3 class="doc-title">重返狼群</h3>
-                <div class="doc-platform">📺 YouTube | 国语中字</div>
-                <p class="doc-description">
-                    中国制作的高质量狼纪录片，记录了中国东北虎豹国家公园及周边地区的狼群生存状况。展现了狼群在特殊环境下的生存智慧和团队协作，是研究中国野生动物的珍贵影像资料。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">2017年制作</span>
-                    <a href="https://www.youtube.com/watch?v=l2nqQTchiiY" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #3a4a5a 0%, #1f2a35 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">重返狼群</h3>
+                    <div class="doc-platform">YouTube 国语中字</div>
+                    <p class="doc-description">
+                        中国制作的高质量狼纪录片，记录了中国东北虎豹国家公园及周边地区的狼群生存状况。展现了狼群在特殊环境下的生存智慧和团队协作，是研究中国野生动物的珍贵影像资料。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">2017年制作</span>
+                        <a href="https://www.youtube.com/watch?v=l2nqQTchiiY" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
 
             <div class="doc-card">
                 <span class="doc-badge">合集</span>
-                <h3 class="doc-title">狼纪录片精选合集</h3>
-                <div class="doc-platform">📺 YouTube Playlist</div>
-                <p class="doc-description">
-                    收录了多个优秀的狼纪录片，让你沉浸式体验野外的神秘气息和狼的狂野能量。适合系统学习。
-                </p>
-                <div class="doc-meta">
-                    <span class="doc-date">持续更新</span>
-                    <a href="https://www.youtube.com/playlist?list=PL306tQWTn9VS1B9QG22_Z7J-H_YRBmRFi" class="watch-btn" target="_blank">观看 🎬</a>
+                <div class="doc-image" style="background-image: linear-gradient(135deg, #2a3a4a 0%, #1a252a 100%);"></div>
+                <div class="doc-content">
+                    <h3 class="doc-title">狼纪录片精选合集</h3>
+                    <div class="doc-platform">YouTube Playlist</div>
+                    <p class="doc-description">
+                        收录了多个优秀的狼纪录片，让你沉浸式体验野外的神秘气息和狼的狂野能量。适合系统学习，从基础了解到深入研究。
+                    </p>
+                    <div class="doc-meta">
+                        <span class="doc-date">持续更新</span>
+                        <a href="https://www.youtube.com/playlist?list=PL306tQWTn9VS1B9QG22_Z7J-H_YRBmRFi" class="watch-btn" target="_blank">观看</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="notes-section">
-            <h2>📝 学习笔记</h2>
+            <h2>📝 学习指南</h2>
             <ul class="notes-list">
-                <li>💡 <strong>建议顺序</strong>：从《狼的生存斗争》开始，了解基础；然后看《狼谷之战》深入了解；最后看合集巩固知识</li>
-                <li>🎯 <strong>重点观察</strong>：注意狼群的等级制度、狩猎策略、幼崽成长过程</li>
-                <li>🌍 <strong>地理分布</strong>：对比黄石公园（北美）和阿尔卑斯山（欧洲）的狼群差异</li>
-                <li>⏰ <strong>观看时长</strong>：每部纪录片约45-90分钟，建议分段观看并做笔记</li>
-                <li>🔄 <strong>反复学习</strong>：多次观看，每次关注不同方面（行为、环境、生存策略）</li>
+                <li>🎯 <strong>观看顺序</strong>：从《狼的生存斗争》了解基础 → 《狼谷之战》深入了解 → 《重返狼群》了解中国狼群 → 最后看合集巩固知识</li>
+                <li>👁️ <strong>重点观察</strong>：狼群的等级制度、狩猎策略、幼崽成长过程、领地保卫行为</li>
+                <li>🌍 <strong>地理对比</strong>：黄石公园（北美）、阿尔卑斯山（欧洲）、中国东北 - 对比不同环境下狼的适应策略</li>
+                <li>🎬 <strong>观看建议</strong>：每部纪录片约45-90分钟，建议分段观看并做笔记，暂停思考画面细节</li>
+                <li>🔄 <strong>反复学习</strong>：多次观看同一纪录片，每次关注不同方面（行为、环境、生存策略、社会结构）</li>
             </ul>
         </div>
 
         <footer>
-            <p>🐺 Wolf Documentary Hub | 持续更新中...</p>
-            <p>© 2026 - 让我们共同保护和学习狼的世界</p>
+            <p class="wolf-paw">🐾</p>
+            <p>🐺 Wolf Documentary Hub | 探索狼的神秘世界</p>
+            <p>© 2026 | 让我们共同保护和学习这些伟大的野生动物</p>
         </footer>
     </div>
 
     <script>
-        // 简单的筛选功能
+        // 筛选功能
         const filterBtns = document.querySelectorAll('.filter-btn');
         const docCards = document.querySelectorAll('.doc-card');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // 移除所有active类
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // 添加active类到当前按钮
                 btn.classList.add('active');
                 
-                // 获取筛选类型
                 const filterType = btn.textContent.trim();
                 
-                // 筛选显示
                 docCards.forEach(card => {
-                    if (filterType === '全部') {
-                        card.style.display = 'block';
-                    } else {
-                        // 这里可以根据需要添加更复杂的筛选逻辑
-                        card.style.display = 'block';
-                    }
+                    card.style.display = 'block';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        if (filterType === '全部') {
+                            card.style.display = 'block';
+                        } else if (card.textContent.includes(filterType)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                        
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100 + Math.random() * 200);
                 });
             });
         });
 
-        // 添加点击观看后的提醒
+        // 观看记录
         const watchBtns = document.querySelectorAll('.watch-btn');
         watchBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 const card = e.target.closest('.doc-card');
                 const title = card.querySelector('.doc-title').textContent;
-                console.log(`开始观看：${title}`);
-                // 可以在这里添加观看记录功能
+                
+                // 保存到本地存储
+                const watched = JSON.parse(localStorage.getItem('watchedDocs') || '[]');
+                if (!watched.includes(title)) {
+                    watched.push(title);
+                    localStorage.setItem('watchedDocs', JSON.stringify(watched));
+                    
+                    // 标记已观看
+                    card.style.borderColor = '#4a9eff';
+                    card.querySelector('.doc-badge').textContent = '✓ 已观看';
+                }
+                
+                // 打开链接
+                const href = e.target.getAttribute('href');
+                window.open(href, '_blank');
+            });
+        });
+
+        // 页面加载时恢复观看状态
+        window.addEventListener('load', () => {
+            const watched = JSON.parse(localStorage.getItem('watchedDocs') || '[]');
+            docCards.forEach(card => {
+                const title = card.querySelector('.doc-title').textContent;
+                if (watched.includes(title)) {
+                    card.querySelector('.doc-badge').textContent = '✓ 已观看';
+                    card.style.borderColor = 'rgba(74, 158, 255, 0.3)';
+                }
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
