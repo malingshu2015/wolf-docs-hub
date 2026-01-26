@@ -1,76 +1,510 @@
-<!doctype html>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clawdbot Canvas</title>
-<style>
-  html, body { height: 100%; margin: 0; background: #000; color: #fff; font: 16px/1.4 -apple-system, BlinkMacSystemFont, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-  .wrap { min-height: 100%; display: grid; place-items: center; padding: 24px; }
-  .card { width: min(720px, 100%); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; padding: 18px 18px 14px; }
-  .title { display: flex; align-items: baseline; gap: 10px; }
-  h1 { margin: 0; font-size: 22px; letter-spacing: 0.2px; }
-  .sub { opacity: 0.75; font-size: 13px; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-  button { appearance: none; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.10); color: #fff; padding: 10px 12px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-  button:active { transform: translateY(1px); }
-  .ok { color: #24e08a; }
-  .bad { color: #ff5c5c; }
-  .log { margin-top: 14px; opacity: 0.85; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; white-space: pre-wrap; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; }
-</style>
-<div class="wrap">
-  <div class="card">
-    <div class="title">
-      <h1>Clawdbot Canvas</h1>
-      <div class="sub">Interactive test page (auto-reload enabled)</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wolf Hub - 狼的自然纪录片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            padding-top: 56px;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #0f0f0f;
+            padding: 0 16px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            border-bottom: 1px solid #303030;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .logo-icon {
+            font-size: 28px;
+            margin-right: 8px;
+        }
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 16px;
+            position: relative;
+        }
+        .search-bar input {
+            width: 100%;
+            height: 40px;
+            background-color: #121212;
+            border: 1px solid #303030;
+            border-radius: 20px;
+            padding: 0 16px 0 40px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-bar input:focus {
+            border-color: #1a73e8;
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888888;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .header-right .icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 20px;
+        }
+        .header-right .icon:hover {
+            background-color: #272727;
+        }
+        .categories {
+            display: flex;
+            gap: 8px;
+            padding: 16px 0;
+            overflow-x: auto;
+            border-bottom: 1px solid #303030;
+        }
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        .category-btn {
+            padding: 8px 16px;
+            background-color: #272727;
+            color: #ffffff;
+            border: none;
+            border-radius: 18px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.2s;
+        }
+        .category-btn:hover {
+            background-color: #3f3f3f;
+        }
+        .category-btn.active {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            padding: 24px 16px;
+        }
+        .video-card {
+            background-color: #0f0f0f;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+        .thumbnail {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 18px solid #0f0f0f;
+            margin-left: 4px;
+        }
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .video-info {
+            display: flex;
+            padding: 12px 0;
+        }
+        .video-info .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .video-info .details {
+            flex: 1;
+        }
+        .video-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .channel-name {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        .channel-name .verified {
+            margin-left: 4px;
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+        .video-meta {
+            font-size: 14px;
+            color: #aaaaaa;
+        }
+        .footer {
+            background-color: #0f0f0f;
+            border-top: 1px solid #303030;
+            padding: 24px 16px;
+            text-align: center;
+            color: #888888;
+            margin-top: 24px;
+        }
+        @media (max-width: 768px) {
+            .search-bar {
+                display: none;
+            }
+            .header-right .icon:nth-child(n+3) {
+                display: none;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1201px) {
+            .video-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f3f;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4f4f4f;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🐺</span>
+            <span>Wolf Hub</span>
+        </div>
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="搜索纪录片...">
+        </div>
+        <div class="header-right">
+            <div class="icon">🔔</div>
+            <div class="icon">📥</div>
+            <div class="icon">👤</div>
+        </div>
+    </header>
+
+    <div class="categories">
+        <button class="category-btn active">全部</button>
+        <button class="category-btn">野生动物</button>
+        <button class="category-btn">狼科</button>
+        <button class="category-btn">生存记录</button>
+        <button class="category-btn">自然环境</button>
+        <button class="category-btn">科普教育</button>
     </div>
 
-    <div class="row">
-      <button id="btn-hello">Hello</button>
-      <button id="btn-time">Time</button>
-      <button id="btn-photo">Photo</button>
-      <button id="btn-dalek">Dalek</button>
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800&q=80" alt="狼的生存斗争">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">52:18</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">狼的生存斗争：极地荒野中的生死较量</div>
+                    <div class="channel-name">
+                        National Geographic
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">128万次观看 • 3天前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1598055586110-47833a9a0a93?w=800&q=80" alt="黄石国家公园的捕狼群">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">45:32</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">黄石国家公园：重返野化的传奇</div>
+                    <div class="channel-name">
+                        BBC Earth
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">95万次观看 • 1周前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-15045184687741-5a43830a982c?w=800&q=80" alt="狼谷之战">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">1:02:45</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">狼谷之战：阿尔卑斯山脉的狩猎现场</div>
+                    <div class="channel-name">
+                        Discovery Channel
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">206万次观看 • 2周前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1562376082874-87486046e4d?w=800&q=80" alt="重返狼群">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">38:21</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">重返狼群：与狼共度的传奇故事</div>
+                    <div class="channel-name">
+                        优酷纪录片
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">78万次观看 • 5天前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1534080546423-0354b741666d?w=800&q=80" alt="狼族的社会">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">55:12</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">狼族的社会：等级制度与群体智慧</div>
+                    <div class="channel-name">
+                        Animal Planet
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">153万次观看 • 4天前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1455736513874-0a4166722b27?w=800&q=80" alt="冬天的狼">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">42:58</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">冬天的狼：严寒中的生存策略</div>
+                    <div class="channel-name">
+                        Nat Geo Wild
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">112万次观看 • 1个月前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1596735554724-4729f03e8483?w=800&q=80" alt="狼的捕猎技巧">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">48:35</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">狼的捕猎技巧：团队协作的完美演绎</div>
+                    <div class="channel-name">
+                        Nature Documentaries
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">189万次观看 • 2天前</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail">
+                <img src="https://images.unsplash.com/photo-1509233725237-5b1bc3c8569a?w=800&q=80" alt="狼的进化">
+                <div class="play-overlay">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="duration">1:15:42</div>
+            </div>
+            <div class="video-info">
+                <div class="avatar"></div>
+                <div class="details">
+                    <div class="video-title">狼的进化：从古代到现代的演变历程</div>
+                    <div class="channel-name">
+                        Science Channel
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="video-meta">234万次观看 • 6天前</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="status" class="sub" style="margin-top: 10px;"></div>
-    <div id="log" class="log">Ready.</div>
-  </div>
-</div>
-<script>
-(() => {
-  const logEl = document.getElementById("log");
-  const statusEl = document.getElementById("status");
-  const log = (msg) => { logEl.textContent = String(msg); };
+    <footer class="footer">
+        <p>© 2026 Wolf Hub - 狼的自然纪录片库</p>
+        <p style="margin-top: 8px; font-size: 12px;">致力于保护野生动物，传播自然知识</p>
+    </footer>
 
-  const hasIOS = () => !!(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clawdbotCanvasA2UIAction);
-  const hasAndroid = () => !!(window.clawdbotCanvasA2UIAction && typeof window.clawdbotCanvasA2UIAction.postMessage === "function");
-  const hasHelper = () => typeof window.clawdbotSendUserAction === "function";
-  statusEl.innerHTML =
-    "Bridge: " +
-    (hasHelper() ? "<span class='ok'>ready</span>" : "<span class='bad'>missing</span>") +
-    " · iOS=" + (hasIOS() ? "yes" : "no") +
-    " · Android=" + (hasAndroid() ? "yes" : "no");
+    <script>
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
-  window.addEventListener("clawdbot:a2ui-action-status", (ev) => {
-    const d = ev && ev.detail || {};
-    log("Action status: id=" + (d.id || "?") + " ok=" + String(!!d.ok) + (d.error ? (" error=" + d.error) : ""));
-  });
+        const searchInput = document.querySelector('.search-bar input');
+        const videoCards = document.querySelectorAll('.video-card');
 
-  function send(name, sourceComponentId) {
-    if (!hasHelper()) {
-      log("No action bridge found. Ensure you're viewing this on an iOS/Android Clawdbot node canvas.");
-      return;
-    }
-    const ok = window.clawdbotSendUserAction({
-      name,
-      surfaceId: "main",
-      sourceComponentId,
-      context: { t: Date.now() },
-    });
-    log(ok ? ("Sent action: " + name) : ("Failed to send action: " + name));
-  }
-
-  document.getElementById("btn-hello").onclick = () => send("hello", "demo.hello");
-  document.getElementById("btn-time").onclick = () => send("time", "demo.time");
-  document.getElementById("btn-photo").onclick = () => send("photo", "demo.photo");
-  document.getElementById("btn-dalek").onclick = () => send("dalek", "demo.dalek");
-})();
-</script>
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            videoCards.forEach(card => {
+                const title = card.querySelector('.video-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
